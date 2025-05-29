@@ -1,0 +1,42 @@
+using UnityEngine;
+using UnityEditor;
+using System.IO;
+
+public class CreateMaterials : MonoBehaviour
+{
+    [Header("Material Settings")]
+    public string materialName = "NewMaterial";
+    public Color materialColor = Color.white;
+    public Shader materialShader = null;
+
+    [ContextMenu("Create Material")]
+    public void CreateMaterial()
+    {
+        // Ensure the Materials folder exists
+        string materialsFolderPath = "Assets/Materials";
+        if (!Directory.Exists(materialsFolderPath))
+        {
+            Directory.CreateDirectory(materialsFolderPath);
+            Debug.Log("Created Materials folder.");
+        }
+
+        // Set default shader if none is provided
+        if (materialShader == null)
+        {
+            materialShader = Shader.Find("Standard");
+        }
+
+        // Create a new material
+        Material newMaterial = new Material(materialShader)
+        {
+            color = materialColor
+        };
+
+        // Save the material to the Materials folder
+        string materialPath = Path.Combine(materialsFolderPath, $"{materialName}.mat");
+        AssetDatabase.CreateAsset(newMaterial, materialPath);
+        AssetDatabase.SaveAssets();
+
+        Debug.Log($"Material '{materialName}' created successfully at {materialPath}");
+    }
+}

@@ -1,0 +1,43 @@
+using UnityEngine;
+
+public class AssignTexturesToMaterials : MonoBehaviour
+{
+    [Header("Texture Folder")]
+    public string textureFolderPath = "Assets/Textures";
+
+    void Start()
+    {
+        // Load all textures from the specified folder
+        Texture[] textures = Resources.LoadAll<Texture>(textureFolderPath);
+
+        if (textures.Length == 0)
+        {
+            Debug.LogWarning("No textures found in the specified folder.");
+            return;
+        }
+
+        // Find all materials in the project
+        string[] materialGuids = UnityEditor.AssetDatabase.FindAssets("t:Material");
+        foreach (string guid in materialGuids)
+        {
+            string materialPath = UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
+            Material material = UnityEditor.AssetDatabase.LoadAssetAtPath<Material>(materialPath);
+
+            if (material != null)
+            {
+                // Check for empty texture slots and assign textures
+                foreach (string propertyName in material.GetTexturePropertyNames())
+                {
+                    if (material.GetTexture(propertyName) == null)
+                    {
+                        // Assign the first available texture
+                        material.SetTexture(propertyName, textures[0]);
+                        Debug.Log($"Assigned texture {textures[0].name} to material {material.name} on property {propertyName}");
+                    }
+                }
+            }
+        }
+
+        Debug.Log("Texture assignment completed.");
+    }
+}

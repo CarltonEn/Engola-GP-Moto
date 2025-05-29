@@ -1,0 +1,27 @@
+using UnityEditor;
+using UnityEngine;
+
+public class ModifyProjectSettings : MonoBehaviour
+{
+    [ContextMenu("Configure Project Settings")]
+    public void ConfigureProjectSettings()
+    {
+        // Set default screen resolution
+        PlayerSettings.defaultScreenWidth = 1920;
+        PlayerSettings.defaultScreenHeight = 1080;
+        PlayerSettings.fullScreenMode = FullScreenMode.FullScreenWindow;
+
+        // Set company and product name
+        PlayerSettings.companyName = "YourCompanyName";
+        PlayerSettings.productName = "YourProductName";
+
+        // Set default quality level
+        QualitySettings.SetQualityLevel(3); // 0 = Low, 3 = High, etc.
+
+        // Enable VSync
+        QualitySettings.vSyncCount = 1;
+
+        // Log the changes
+        Debug.Log("Project settings configured successfully.");
+    }
+}

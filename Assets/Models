@@ -1,0 +1,54 @@
+using UnityEngine;
+using UnityEditor;
+using System.IO;
+
+public class ManageModels : MonoBehaviour
+{
+    [Header("Model Settings")]
+    public string modelName = "NewModel";
+    public string modelFolderPath = "Assets/Models";
+    public Material defaultMaterial;
+
+    [ContextMenu("Create Placeholder Model")]
+    public void CreatePlaceholderModel()
+    {
+        // Ensure the Models folder exists
+        if (!Directory.Exists(modelFolderPath))
+        {
+            Directory.CreateDirectory(modelFolderPath);
+            Debug.Log("Created Models folder.");
+        }
+
+        // Create a placeholder GameObject
+        GameObject placeholderModel = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        placeholderModel.name = modelName;
+
+        // Assign a default material if provided
+        if (defaultMaterial != null)
+        {
+            Renderer renderer = placeholderModel.GetComponent<Renderer>();
+            renderer.sharedMaterial = defaultMaterial;
+        }
+
+        // Save the placeholder model as a prefab
+        string prefabPath = Path.Combine(modelFolderPath, $"{modelName}.prefab");
+        PrefabUtility.SaveAsPrefabAsset(placeholderModel, prefabPath);
+        DestroyImmediate(placeholderModel);
+
+        Debug.Log($"Placeholder model '{modelName}' created successfully at {prefabPath}");
+    }
+
+    [ContextMenu("List All Models")]
+    public void ListAllModels()
+    {
+        // Find all model files in the Models folder
+        string[] modelFiles = Directory.GetFiles(modelFolderPath, "*.*", SearchOption.AllDirectories);
+        foreach (string file in modelFiles)
+        {
+            if (file.EndsWith(".fbx") || file.EndsWith(".obj") || file.EndsWith(".prefab"))
+            {
+                Debug.Log($"Model found: {file}");
+            }
+        }
+    }
+}
