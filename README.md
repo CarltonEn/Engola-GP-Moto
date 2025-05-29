@@ -1,6 +1,6 @@
-# Engola GP Moto
+# Engola Moto GP
 
-Welcome to Engola GP Moto, a thrilling 3D racing game that puts you in the driver's seat of high-speed motorcycle racing. This project aims to deliver an immersive racing experience with stunning graphics, realistic physics, and engaging gameplay.
+Welcome to Engola Moto GP, a thrilling 3D motorcycle racing game based within the amazing streets with Uganda. This project aims to deliver an immersive racing experience with stunning graphics, realistic physics, and engaging gameplay, get to experince the Ugandan chills- Tunyuke!
 
 ## Table of Contents
 
